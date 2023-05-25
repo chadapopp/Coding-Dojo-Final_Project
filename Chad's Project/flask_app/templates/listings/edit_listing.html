@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container col-5 mt-5">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger" >
+                <p class="text-danger"> {{message}}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<div class="container mt-5 text-light">
+    <form method="post" action="/edit_listing/{{listing.id}}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>Title:</label>
+            <input type="text" name="title" class="form-control" value="{{listing.title}}">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <input type="hidden" name="listing_id" value="{{listing_id}}">
+        </div>
+        <div class="mb-3">
+            <label>Description:</label>
+            <input type="text" name="description" class="form-control" value="{{listing.description}}">
+        </div>
+        <div class="mb-3">
+            <label>Rate:</label>
+            <input type="number" name="rate" class="form-control" value="{{listing.rate}}">
+        </div>
+        <div class="mb-3">
+            <label>Location:</label>
+            <input type="text" name="location" class="form-control" value="{{listing.location}}">
+        </div>
+        <div class="mb-3">
+            <label>Availability:</label>
+            <input type="date" name="availability" class="form-control" value="{{listing.availability}}">
+        </div>
+        
+        
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Edit My Listing</button>
+        </div>
+    </form>
+    <div id="error-div" style="display: none;"></div>
+    <div id="success-div" style="display: none;"></div>
+</div>
+{% block scripts %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container mt-5 text-light">
+    <div>
+        <h1>Booking: {{ listing.title }}</h1>
+        <h3>Please Select a Date</h3>
+    </div>
+    <div>
+        <h4>Booked Dates</h4>
+        <ul>
+            {% for booking in booked_dates %}
+            <div class="booked-dates" style="display:none">
+                <li class="text-light">{{ booking.start_date }} - {{ booking.end_date }}</li>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+    <form method="post" action="/booking/create">
+        <div class="mb-3">
+            <label>Check In:</label>
+            <input type="text" name="check_in" class="form-control datepicker" id="check_in_date" required>
+            <input type="hidden" name="user_id" value="{{ listing.user_id }}">
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+        </div>
+        <div class="mb-3">
+            <label>Check Out:</label>
+            <input type="text" name="check_out" class="form-control datepicker" id="check_out_date" required>
+        </div>
+        <div class="mb-3">
+            <label>Number Of Guests:</label>
+            <input type="number" name="number_of_guests" class="form-control">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Book It!</button>
+        </div>
+    </form>
+</div>
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+<script src="{{ url_for('static', filename='date_check.js')}}"></script>
+<style>
+    .booked-date {
+        background-color: #ff0000;
+        color: black;
+        text-decoration: line-through;
+    }
+    .selected-range {
+        background-color: #0000ff;
+        color: #ffffff;
+        text-decoration: line-through;
+    }
+</style>
+
+{% endblock %}
+{% endblock %}
+
+
+

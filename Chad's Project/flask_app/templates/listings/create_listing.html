@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container col-5 mt-5">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger" >
+                <p class="text-danger"> {{message}}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<h1 class="text-light">Fill in the Details Below</h1>
+<div class="container mt-5 text-light">
+    <form id="form-upload" method="post" action="/create_listing" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>Title:</label>
+            <input type="text" name="title" class="form-control">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <input type="hidden" name="listing_id" value="{{listing_id}}">
+        </div>
+        <div class="mb-3">
+            <label>Description:</label>
+            <input type="text" name="description" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Rate:</label>
+            <input type="number" name="rate" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Location:</label>
+            <input type="text" name="location" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Availability:</label>
+            <input type="date" name="availability" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Add Photos:</label>
+            <input type="file" name="add_photos[]" class="form-control" multiple>
+            
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary" >Create My Listing</button>
+        </div>
+    </form>
+    <div id="error-div" style="display: none;"></div>
+    <div id="success-div" style="display: none;"></div>
+
+        
+</div>
+{% block scripts %}
+<script src="{{ url_for('static', filename='app.js')}}"></script>
+{% endblock %}
+{% endblock %}

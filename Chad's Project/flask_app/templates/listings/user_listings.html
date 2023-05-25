@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+{% with errors = get_flashed_messages() %}
+    {% if errors %}
+        {% for error_message in errors %}
+        <div class="alert alert-danger">{{error_message}}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="container mt-5">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="mb-5  text-light">{{user.first_name}}'s Listings</h1>
+        <a href="/booking/my_booking" class="btn btn-primary">Back to My Bookings</a>
+        
+    </div>
+    {% for listing in listings %}
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                {% if images[loop.index0] %}
+                    <a href="/view_listing/{{ listing.id }}"><img src="{{ url_for('uploaded_file', filename=images[loop.index0][0]) }}" class="img-thumbnail" alt="{{ images[loop.index0][0] }}"></a> 
+                    {% else %}
+                    <img src="{{ url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="Placeholder Image">
+                    {% endif %}
+                </div>
+                <div class="col-md-4 p-3">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3">{{ listing.title }}</h5>
+                        <p class="card-text fs-5">{{ listing.description }}</p>
+                        <p class="card-text fs-5">Located in : {{ listing.location }}</p>    
+                        <a href="/remove_listing/delete/{{listing.id}}" class="btn btn-danger">Remove Listing</a>
+                        <a href="/edit_listing/{{listing.id}}" class="btn btn-primary"> Edit Listing </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="/create_listing" class="btn btn-success">List Another Camper</a>
+</div>
+</div>
+{% endblock %}
+  
+

@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-5  text-light">View the Selection Of Campers for Rent</h1>
+    {% for listing in user_listings %}
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                {% if listing.add_photos %}
+                    <a href="/view_listing/{{listing.id}}"><img src="{{ url_for('uploaded_file', filename=listing.add_photos[0]) }}" class="img-thumbnail" alt="{{ listing.add_photos[0] }}"></a> 
+                {% else %}
+                    <img src="{{ url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="Placeholder Image">
+                {% endif %}
+            </div>
+            <div class="col-md-4 p-3">
+                <div class="card-body">
+                    <h5 class="card-title fs-3">{{ listing.title }}</h5>
+                    <p class="card-text fs-5">{{ listing.description }}</p>
+                    <p class="card-text fs-5">Located in : {{ listing.location }}</p>
+                    <p class="card-text mt-5"><small class="text-muted">Listed by: {{ listing.user_id.first_name }} {{ listing.user_id.last_name }}</small></p>
+                    <a href="/view_listing/{{listing.id}}" class="btn btn-primary mt-5">View Details</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
+
+<a href="/all_rentals/delete/{{ listing.id }}" class="btn btn-danger">Delete Listing</a>
+
+
+
+
+ 

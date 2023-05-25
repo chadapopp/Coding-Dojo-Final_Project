@@ -1,0 +1,84 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+  <div class="container text-light">
+    <div class="d-flex justify-content-between align-items-end">
+      <h1>{{ listing.title }}</h1>
+    </div>
+    <div class="d-flex align-items-center justify-content-end gap-5">
+      <a href="{{ url_for('show_booking_page', listing_id=listing.id) }}" class="btn btn-success">Book It</a>
+      <a href="/all_rentals" class="btn btn-primary">Back to All Rentals</a>
+    </div>
+
+
+  <div class="container mt-5 border border-5 border-dark p-3">
+    <div class="row">
+      <div id="carouselExampleIndicators" class="carousel slide">
+        <!-- Main Carousel Indicators -->
+        <div class="carousel-indicators">
+          {% for image in photos %}
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ loop.index0 }}" {% if loop.index0 == 0 %}class="active"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+          {% endfor %}
+        </div>
+        
+        <!-- Main Carousel Inner -->
+        <div class="carousel-inner">
+          {% for image in photos %}
+          <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+            <img src="{{ url_for('uploaded_file', filename=image) }}" class="img-fluid" alt="Listing Image" >
+          </div>
+          {% endfor %}
+        </div>
+        
+        <!-- Main Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    
+
+
+  <div class="container border border-5 mt-5">
+    <p class="fs-3">Description: <br>
+      {{ listing.description }}
+    </p>
+    <p class="fs-3">Rate: <br> ${{listing.rate}} a night.</p>
+    <p>Listed By: {{user.first_name}} {{user.last_name}}</p>
+  </div>
+      {% if booked_dates %}
+      <div class="container mt-3">
+        <h3>Booked Dates:</h3>
+        <ul>
+          {% for date_range in booked_dates %}
+            <li>{{ date_range.start_date }} - {{ date_range.end_date }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+  <div class="container mt-4">
+    
+  </div>
+
+  
+{% endblock %}
+  
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='view_listing.js')}}"></script>
+{% endblock %}
+
+
+
+
+
+
+
+

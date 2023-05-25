@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+        {% with errors = get_flashed_messages() %} 
+        {% if errors %}
+            <div class="alert alert-danger">
+                <h5>You must create an account to book this camper. Click <a href="/sign_up">here</a> to sign up. Or already a member? Login Below.</h5>
+                <ul>
+                {% for error_message in errors %}
+                <li>{{ error_message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %} 
+    {% endwith %}
+    <div class="container mt-5 text-light col-6">
+            <h1 class="text-light mb-5">Login</h1>
+            <form method="post" action="/login">
+                <div class="mb-3">
+                    <label>Email:</label>
+                    <input type="text" name="email" class="form-control">
+                    <input type="hidden" name="user_id">
+                </div>
+                <div class="mb-3">
+                    <label>Password:</label>
+                    <input type="password" name="password" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}

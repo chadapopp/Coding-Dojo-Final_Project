@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container text-light text-center col-6 mb-5">
+        <h2>Hope You Enjoy Your Stay at {{ listing.title }}!</h2>
+        <h4 class="mb-5">Hosted By: {{host.first_name}} {{host.last_name}}</h4>
+        <h4>Below are the details for your trip!</h4>
+    </div>
+    {% for booking in bookings %}
+    <div class="container card card-body col-5">
+            <p class="fw-bold fs-4">You Booked: {{ booking.listing.title }}</p>
+            <p class="fw-bold fs-5">Check-in: {{ booking.check_in.strftime('%m-%d-%Y') }}</p>
+            <p class="fw-bold fs-5">Check-out: {{ booking.check_out.strftime('%m-%d-%Y') }}</p>
+            <p class="fw-bold fs-5">Number of Guests: {{ booking.number_of_guests }}</p>
+            <p class="fw-bold fs-5">Booked By: {{ booking.user.first_name }} {{ booking.user.last_name }}</p>
+            <p>Contact information: {{host.email}}</p>
+        </div>
+    {% endfor %}
+    <div class="container col-5 mt-5">
+        <a href="/logout" class="btn btn-warning">Logout</a>
+        <a href="/booking/my_booking" class="btn btn-primary">My Home Page</a>
+
+    </div>
+{% endblock %}

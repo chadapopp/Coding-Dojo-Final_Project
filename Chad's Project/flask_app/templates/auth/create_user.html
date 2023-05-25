@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+
+
+<div class="container mt-5 col-6 text-light">
+    <h1 class="mb-5">Sign up to Book Your RV!</h1>
+    <form method="post" action="/sign_up">
+        <div class="mb-3">
+            <label>First Name:</label>
+            <input type="text" name="first_name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Last Name:</label>
+            <input type="text" name="last_name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Email:</label>
+            <input type="text" name="email" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Password:</label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+        <div class="mb-3">
+            <h5>Already a member?</h5>
+            <a href="/login" class="btn btn-success">Login</a>
+
+        </div>
+    </form>
+</div>
+{% endblock %}

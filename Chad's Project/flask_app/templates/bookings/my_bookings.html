@@ -1,0 +1,54 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex flex-column  align-items-start">
+        <div class=" container d-flex align-items-center justify-content-between mb-5">
+            <h1 class="text-light"> {{ first_name }}'s Upcoming Trips</h1>
+            <a href="/logout" class="btn btn-warning">Logout</a>
+        </div>
+        
+        <table class="table table-striped text-light">
+            <thead>
+                <tr>
+                    <th>Rented</th>
+                    <th>Check-in Date</th>
+                    <th>Check-out Date</th>
+                    <th>Booked By</th>
+                    <th>Number Of Guests</th>
+                    <th>Actions</th>
+                    <!-- Add more table headers for additional booking details -->
+                </tr>
+            </thead>
+            <tbody class="text-light">
+                {% for booking in bookings %}
+                <tr >
+                    <td class="text-light">{{ booking.listing.title }}</td>
+                    <td class="text-light">{{ booking.check_in.strftime('%m-%d-%Y') }}</td>
+                    <td class="text-light">{{ booking.check_out.strftime('%m-%d-%Y') }}</td>
+                    <td class="text-light">{{ booking.user.first_name }} {{booking.user.last_name}}</td>
+                    <td class="text-light">{{ booking.number_of_guests }}</td>
+                    <td>
+                        <a href="/booking/delete/{{booking.id}}" class="btn btn-danger">Remove Booking</a>
+                        <a href="/view_listing/{{booking.listing_id}}" class="btn btn-primary">View Details</a>
+                    </td>
+                    <!-- Add more <td> cells for additional booking details -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="container d-flex justify-content-between p-5">
+            <a href="/all_rentals" class="btn btn-primary">Book Another</a>    
+            <a href="/booking/show_who_booked" class="btn btn-success">View All My Renters</a>
+            <a href="/show_my_listings/{{session['user_id']}}" class="btn btn-info">Manage My Listings</a>   
+ 
+        </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock %}

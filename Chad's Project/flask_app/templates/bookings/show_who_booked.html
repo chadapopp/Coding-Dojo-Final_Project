@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-light"> Below Are Your Renters</h1>
+
+<table class="table table-striped text-light">
+    <thead>
+        <tr>
+            <th>Unit Rented</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Booked By</th>
+            <th>Number Of Guests</th>
+            <th>Remove Booking</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td class="text-light">{{ booking.listing.title }}</td>
+            <td class="text-light">{{ booking.check_in.strftime('%Y-%m-%d') }}</td>
+            <td class="text-light">{{ booking.check_out.strftime('%Y-%m-%d') }}</td>
+            <td class="text-light">{{ booking.user.first_name }} {{booking.user.last_name}}</td>
+            <td class="text-light">{{ booking.number_of_guests }}</td>
+            <td><a href="/booking/delete/{{booking.id}}" class="btn btn-danger">Remove Booking</a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="container">
+    <a href="/create_listing" class="btn btn-success">List Another RV for Rent</a>
+    <a href="/booking/my_booking" class="btn btn-primary">Back to My Bookings</a>    
+    <a href="/logout" class="btn btn-warning">Logout</a>
+</div>
+
+{% endblock %}
