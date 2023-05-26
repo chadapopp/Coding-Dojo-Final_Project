@@ -91,11 +91,44 @@ def show_users_listings(user_id):
         images.append(listing_images)
     return render_template('/listings/user_listings.html', listings = listings, user = user, images = images)
 
+@app.route("/edit_listing/<int:listing_id>/photos")
+def edit_listing_photos(listing_id):
+    listing = Listing.get_listing_by_id(listing_id)
+    photos = Listing.get_photos_for_listing(listing_id)
+    return render_template('listings/edit_listing_photos.html', listing = listing, photos = photos)
+
+@app.route("/edit_listing/<int:listing_id>/photos", methods=["POST"])
+def editing_listing_upload_photos(listing_id):
+    if 'add_photos[]' not in request.files:
+        return ("No file selected", 400)
+    
+    add_photos = request.files.getlist('add_photos[]')
+    if len(add_photos) == 0:
+        return ("No file selected", 400)
+    
+    photo_paths = []
+    for photo in add_photos:
+        extension = get_file_extension(photo.filename)
+        unique_filename = uuid.uuid4().hex + extension
+        file_path = os.path.join(app.instance_path,"uploads", unique_filename)
+        photo.save(file_path)
+        photo_paths.append(unique_filename)
+
+    # Merge the new photos with the old photos
+    old_photos = Listing.get_photos_for_listing(listing_id)
+    old_photos.extend(photo_paths)
+    listing_data = {
+        'add_photos': json.dumps(old_photos),
+        'listing_id': listing_id
+    }
+    Listing.update_listing_photos(listing_data)
+    return jsonify(images = photo_paths)
+
 @app.route('/edit_listing/<int:listing_id>')
 def edit_listing_form(listing_id):
     listing = Listing.get_listing_by_id(listing_id)
-    images = Listing.get_photos_for_listing(listing_id)
-    return render_template('/listings/edit_listing.html', listing = listing, images = images)
+    photos = Listing.get_photos_for_listing(listing_id)
+    return render_template('/listings/edit_listing.html', listing = listing, photos = photos)
 
 @app.route('/edit_listing/<int:listing_id>', methods=['POST'])
 def edit_listing(listing_id):

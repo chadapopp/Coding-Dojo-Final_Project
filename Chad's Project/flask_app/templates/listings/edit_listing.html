@@ -12,6 +12,10 @@
     {% endwith %}
 </div>
 <div class="container mt-5 text-light">
+    <h1>Edit Your Listing</h1>
+    <div class="d-flex justify-content-end">
+        <a href="/edit_listing/{{listing.id}}/photos" class="btn btn-primary">Edit Photos</a>
+    </div>
     <form method="post" action="/edit_listing/{{listing.id}}" enctype="multipart/form-data">
         <div class="mb-3">
             <label>Title:</label>

@@ -138,3 +138,8 @@ class Listing:
     
     
 
+    @classmethod
+    def update_listing_photos(cls, data):
+        query = "UPDATE listings SET add_photos = %(add_photos)s WHERE id = %(listing_id)s"
+        return connectToMySQL(cls.DB).query_db(query, data)
+    
