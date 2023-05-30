@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container col-5 mt-5">
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for
+    message in messages %}
+    <div class="alert alert-danger">
+        <p class="text-danger">{{message}}</p>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+</div>
+<div class="container mt-5 text-light">
+    <h1>Edit Listing Photos</h1>
+    <form
+        method="post"
+        action="/edit_listing/{{ listing.id }}/photos"
+        enctype="multipart/form-data"
+        id="edit-photos-form"
+    >
+        <div class="mb-3">
+            <label for="photos" class="form-label">Upload New Photos</label>
+            <input type="file" name="add_photos[]" class="form-control" id="photos" multiple/>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Upload Photos</button>
+        </div>
+    </form>
+    
+    <div class="row" id="photos">
+        {% for image in photos %}
+            <img
+                src="{{ url_for('uploaded_file', filename=image) }}"
+                class="img-fluid col-3"
+                alt="Listing Image"
+            />
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<!-- <script src="{{ url_for('static', filename='app.js') }}"></script> -->
+<script>
+    document.querySelector("#edit-photos-form").addEventListener("submit", handleFormSubmit);
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+        const input = event.target.querySelector("#photos");
+        if (input.files.length === 0) {
+            alert("Please select at least one file to upload.");
+            return false;
+        }
+        const formData = new FormData(event.target);
+        const response = await fetch(event.target.action, {
+            method: "POST",
+            body: formData,
+            enctype: "multipart/form-data",
+        });
+        const data = await response.json();
+        // Insert the uploaded image into the DOM
+        for (const image of data.images) {
+            const img = document.createElement("img");
+            img.src = `{{ url_for('uploaded_file', filename='') }}/${image}`;
+            img.classList.add("img-fluid", "col-3");
+            img.alt = "Listing Image";
+            document.querySelector("#photos").appendChild(img);
+        }
+        return false;
+    }
+        
+</script>
+{% endblock %}
